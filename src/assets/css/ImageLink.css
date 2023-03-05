@@ -1,0 +1,18 @@
+.detect-link {
+    background: linear-gradient(to bottom, #f1f1f1, #ffffff);
+    background-image:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.1) 10px,
+            rgba(255, 255, 255, 0.2) 10px,
+            rgba(255, 255, 255, 0.2) 20px);
+    padding: 2rem;
+}
+
+.grow {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.grow:hover {
+    transform: scale(1.2);
+}
