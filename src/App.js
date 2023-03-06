@@ -1,22 +1,29 @@
 import ParticlesBg from "particles-bg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import './assets/css/App.css';
 import ImageDetect from "./components/ImageDetect";
 import ImageLink from "./components/ImageLink";
 import Logo from "./components/Logo";
 import Ranking from "./components/Ranking";
+import Register from "./components/Register";
+import SignIn from "./components/SignIn";
 import SignInStatus from "./components/SignInStatus";
+import { handleStateChange } from "./utils/global_func";
 
 const App = () => {
 
   const [state, setState] = useState({
     isSignedIn: false,
     imageLink: "",
+
     username: "username",
     rank: 1,
+    email: "",
+    password: "",
 
     faces: [],
+    route: "signin",
   })
 
   const handleInputChange = (statename, value) => {
@@ -74,33 +81,61 @@ const App = () => {
   }
 
   const clickSignIn = () => {
-
+    if (state.route === 'signin') {
+      setState(prev => { return { ...prev, route: "home" } })
+    }
+    else if (state.route === 'home') {
+      setState(prev => { return { ...prev, route: "signin" } })
+    }
   }
+
+  useEffect(() => {
+    setState(prev => { return { ...prev, faces: [] } })
+  }, [state.imageLink])
 
   return (
     <div className="App mx-2">
       <ParticlesBg type="cobweb" bg={true} />
 
-      <div className="d-flex mt-2">
-        <Logo />
-        <SignInStatus
-          isSignedIn={state.isSignedIn}
-          clickButton={clickSignIn}
+      {state.route === 'register' &&
+        <Register
+          clickSignIn={() => handleStateChange(setState, { route: "signin" })}
+          clickRegister={() => { }}
         />
-      </div>
-      <Container >
+      }
 
-        <Ranking username={state.username} rank={state.rank} />
-        <ImageLink
-          changeLink={e => handleInputChange('imageLink', e.target.value)}
-          detectFace={detectFace}
+      {state.route === 'signin' &&
+        <SignIn
+          clickSignIn={clickSignIn}
+          clickRegister={() => handleStateChange(setState, { route: "register" })}
         />
+      }
 
-        <ImageDetect
-          src={state.imageLink}
-          faces={state.faces}
-        />
-      </Container>
+      {state.route === 'home' &&
+        <>
+          <div className="d-flex mt-2">
+            <Logo />
+            <SignInStatus
+              isSignedIn={state.isSignedIn}
+              clickButton={clickSignIn}
+            />
+          </div>
+
+          <Container >
+
+            <Ranking username={state.username} rank={state.rank} />
+            <ImageLink
+              changeLink={e => handleInputChange('imageLink', e.target.value)}
+              detectFace={detectFace}
+            />
+
+            <ImageDetect
+              src={state.imageLink}
+              faces={state.faces}
+            />
+          </Container>
+        </>
+      }
     </div>
   );
 }
