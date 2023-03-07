@@ -89,6 +89,10 @@ const App = () => {
     }
   }
 
+  const clickRegister = () => {
+
+  }
+
   useEffect(() => {
     setState(prev => { return { ...prev, faces: [] } })
   }, [state.imageLink])
@@ -100,7 +104,7 @@ const App = () => {
       {state.route === 'register' &&
         <Register
           clickSignIn={() => handleStateChange(setState, { route: "signin" })}
-          clickRegister={() => { }}
+          clickRegister={clickRegister}
         />
       }
 

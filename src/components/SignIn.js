@@ -26,7 +26,7 @@ const SignIn = ({ clickSignIn, clickRegister }) => {
                 <button className="form-button" onClick={clickSignIn} >Sign In</button>
             </form>
             <p className="register-link">
-                Don't have an account? <a href="#" onClick={clickRegister} >Register</a>
+                Don't have an account? <span className="anchor-like rounded" onClick={clickRegister} >Register</span>
             </p>
         </div>
     );

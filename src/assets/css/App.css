@@ -11,3 +11,17 @@ body {
     position: absolute;
     border: 3px solid #2ecc71;
 }
+
+span.anchor-like {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+}
+
+span.anchor-like:hover {
+    background-color: #000;
+    color: #fff;
+}
