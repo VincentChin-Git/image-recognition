@@ -1,9 +1,9 @@
 import React from "react";
 
-const Ranking = ({ username, rank }) => {
+const Ranking = ({ name, rank }) => {
     return (
         <div className="text-center my-2">
-            <h3 style={h3Style} className="">Hi {username}, you are currently ranked #{rank} in using this app.</h3>
+            <h3 style={h3Style} className="">Hi {name}, you are currently ranked #{rank} in using this app.</h3>
         </div>
     )
 }

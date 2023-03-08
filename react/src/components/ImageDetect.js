@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 
-const ImageDetect = ({ src, faces }) => {
+const ImageDetect = ({ src, faces, toggleDetect }) => {
     const [isImageLoaded, setIsImageLoaded] = useState(false);
 
     const handleImageError = () => {
         setIsImageLoaded(false);
+        toggleDetect()
     };
 
     useEffect(() => {
-        setIsImageLoaded(true);
+        if (src != '') {
+            if (!isImageLoaded) {
+                toggleDetect();
+            }
+            setIsImageLoaded(true);
+        }
     }, [src])
-
-    console.log(faces)
 
     return (
         <div className="my-2 text-center">
