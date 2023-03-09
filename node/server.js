@@ -79,7 +79,7 @@ app.post('/register', (req, res) => {
         })
 })
 
-// get profile (name) + entry
+
 app.get('/profile/:id', (req, res) => {
     const { id } = req.params();
 })
@@ -109,6 +109,21 @@ app.post('/image', (req, res) => {
             res.json({ status: 'error' })
         })
 
+
+})
+
+app.get('/history/:user_id', (req, res) => {
+    const user_id = req.params.user_id;
+    db.select('image_link')
+        .from('image')
+        .where('user_id', '=', user_id)
+        .groupBy('image_link')
+        .then(rows => {
+            let result = rows.map((image_link, index) => (
+                image_link.image_link
+            ))
+            res.json(result);
+        })
 
 })
 

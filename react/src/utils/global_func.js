@@ -9,3 +9,7 @@ export const handleStateChange = (setState, state) => {
 export const toggleState = (setState, statename) => {
     setState(prev => { return { ...prev, [statename]: !prev[statename] } })
 }
+
+export const alertObj = (obj) => {
+    alert(JSON.stringify(obj))
+}

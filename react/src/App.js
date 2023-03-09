@@ -10,9 +10,10 @@ import Logo from "./components/Logo";
 import Ranking from "./components/Ranking";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
-import SignInStatus from "./components/SignInStatus";
+import Navigation from "./components/Navigation";
 import { handleStateChange, toggleState } from "./utils/global_func";
 import { serverPath } from "./utils/global_const";
+import History from "./pages/History";
 
 const App = () => {
 
@@ -111,7 +112,6 @@ const App = () => {
       if (res.data.status == 'info') { alert('Invalid email or password.'); }
       else if (res.data.status == 'error') { alert('Sign in fail.') }
       else if (res.data.status == 'success') {
-        console.log(res.data)
         setState(prev => { return { ...prev, ...res.data.data, route: 'home' } })
       }
     })
@@ -153,6 +153,16 @@ const App = () => {
     setState(prev => { return { ...prev, faces: [] } })
   }, [state.imageLink])
 
+  useEffect(() => {
+    setState(prev => {
+      return {
+        ...prev,
+        imageLink: "",
+        canDetect: false
+      }
+    })
+  }, [state.route])
+
   return (
     <div className="App mx-2">
       <ParticlesBg type="cobweb" bg={true} />
@@ -171,28 +181,37 @@ const App = () => {
         />
       }
 
-      {state.route === 'home' &&
+      {(state.route === 'home' || state.route === 'history') &&
         <>
           <div className="d-flex mt-2">
             <Logo />
-            <SignInStatus
+            <Navigation
               signOut={signOut}
+              route={state.route}
+              setState={setState}
             />
           </div>
 
           <Container >
+            {state.route === 'home' &&
+              <>
+                <Ranking name={state.name} rank={state.rank} />
+                <ImageLink
+                  changeLink={e => handleInputChange('imageLink', e.target.value)}
+                  detectFace={detectFace}
+                  canDetect={state.canDetect}
+                />
+                <ImageDetect
+                  src={state.imageLink}
+                  faces={state.faces}
+                  toggleDetect={() => toggleState(setState, 'canDetect')}
+                />
+              </>
+            }
 
-            <Ranking name={state.name} rank={state.rank} />
-            <ImageLink
-              changeLink={e => handleInputChange('imageLink', e.target.value)}
-              detectFace={detectFace}
-              canDetect={state.canDetect}
-            />
-            <ImageDetect
-              src={state.imageLink}
-              faces={state.faces}
-              toggleDetect={() => toggleState(setState, 'canDetect')}
-            />
+            {state.route === 'history' &&
+              <History user_id={state.user_id} />
+            }
           </Container>
         </>
       }
